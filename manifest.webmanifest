@@ -1,13 +1,4 @@
 {
-  "name": "BAMF.gg Binder",
-  "short_name": "BAMF Binder",
-  "description": "App-style launcher for the BAMF.gg Pokémon binder.",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#111111",
-  "theme_color": "#171717",
-  "icons": [
-    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
-  ]
+"name":"BAMF Offline Binder","short_name":"BAMF Binder","start_url":"./index.html","scope":"./","display":"standalone","background_color":"#111111","theme_color":"#171717",
+"icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
