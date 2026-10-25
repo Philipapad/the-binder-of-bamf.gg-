@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171717">
+  <meta name="description" content="An installable app-style launcher for BAMF.gg.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <title>BAMF.gg Binder</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { margin: 0; min-height: 100vh; background: #111; color: #f7f7f7; display: grid; place-items: center; }
+    main { width: min(92vw, 520px); padding: 28px; box-sizing: border-box; border: 1px solid #343434; border-radius: 22px; background: #1b1b1b; }
+    .logo { width: 76px; height: 76px; }
+    h1 { margin: 16px 0 6px; font-size: 1.8rem; }
+    p { color: #c7c7c7; line-height: 1.5; }
+    .status { display: flex; align-items: center; gap: 10px; margin: 20px 0; padding: 12px 14px; border-radius: 12px; background: #262626; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #aaa; flex: 0 0 auto; }
+    .online .dot { background: #54d68b; }
+    .offline .dot { background: #ffb84d; }
+    a, button { display: block; width: 100%; box-sizing: border-box; border: 0; border-radius: 12px; padding: 14px 16px; text-align: center; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+    a { background: #f2c94c; color: #161616; }
+    button { margin-top: 10px; background: #333; color: white; }
+    .note { font-size: .88rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="logo" src="./icon.svg" alt="BAMF.gg Binder app icon">
+    <h1>BAMF.gg Binder</h1>
+    <p>An app-style shortcut for the bamfies Pokédex binder.</p>
+    <div id="status" class="status">
+      <span class="dot"></span>
+      <span id="statusText">Checking connection…</span>
+    </div>
+    <a id="openSite" href="https://bamf.gg/pokedex">Open BAMF.gg Binder</a>
+    <button id="refresh" type="button">Refresh connection status</button>
+    <p class="note">This app shell can open offline, but the live binder, card images, account features, and latest data still need BAMF.gg's servers. This starter does not download or sync the binder itself.</p>
+  </main>
+  <script>
+    const status = document.getElementById('status');
+    const statusText = document.getElementById('statusText');
+    function updateStatus() {
+      const online = navigator.onLine;
+      status.className = 'status ' + (online ? 'online' : 'offline');
+      statusText.textContent = online
+        ? 'You are online — live binder can be opened.'
+        : 'You are offline — only this app screen is available.';
+    }
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    document.getElementById('refresh').addEventListener('click', updateStatus);
+    updateStatus();
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
